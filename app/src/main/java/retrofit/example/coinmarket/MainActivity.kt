@@ -33,12 +33,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun getCoins() {
         val apiService = Client.getClient().create(ApiService::class.java)
-        val call = apiService.getCoins(50)
+        val call = apiService.getResponse()
         call.enqueue{
             onResponse = {
                 if(it.isSuccessful){
                     progress_bar.visibility = View.GONE
-                    coinsAdapter.updateCoins(it.body()!!)
+                    val responseTest =it.body()!!
+                    coinsAdapter.updateCoins(listOf(Coin(responseTest.origin,responseTest.url)))
                 }
             }
 
